@@ -17,7 +17,7 @@ class RomanNumeralConverterTest {
 
 	@ParameterizedTest
 	@CsvSource({"4999, MMMMCMXCIX", "3462, MMMCDLXII","538, DXXXVIII" })
-	public void dummy(int arabic, String expected) {
+	public void shouldCalculateRomanValueForComplexNumber(int arabic, String expected) {
 		String roman = RomanNumeralConverter.romanFor(arabic);
 		assertEquals(expected, roman);
 	}

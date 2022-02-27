@@ -1,9 +1,11 @@
 package com.sda.testing.solution.parametrized;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class DivisibilityCheckerTest {
@@ -26,6 +28,17 @@ class DivisibilityCheckerTest {
 
 		//then
 		assertFalse(actual);
+	}
+
+
+	@ParameterizedTest
+	@CsvSource({"0, true", "1, false", "3, true", "-3, true", "-8, false"})
+	void shouldCheckDivisibility(int number, boolean expected) {
+		//when
+		boolean actual = DivisibilityChecker.isDivisibleBy3(number);
+
+		//then
+		assertEquals(expected, actual);
 	}
 
 }

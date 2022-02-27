@@ -44,7 +44,19 @@ class UserServiceTest {
 
 	@Test
 	void shouldThrowsExceptionWhenAddingNotValidUser() {
-		when(userValidator.isUserValid(any())).thenReturn(false);
-		assertThrows(Exception.class, () -> userService.addUser(new User(1L, "Dupa", "Blada")));
+		User user = new User(1L, "Dupa", "Blada");
+		when(userValidator.isUserValid(user)).thenReturn(false);
+		assertThrows(Exception.class, () -> userService.addUser(user));
+	}
+
+	@Test
+	void shouldAddUser() {
+		User user = new User(1L, "Dupa", "Blada");
+		when(userValidator.isUserValid(user)).thenReturn(true);
+		when(userRepository.addUser(user)).thenReturn(user);
+
+		User addedUser = userService.addUser(user);
+
+		assertEquals(user, addedUser);
 	}
 }

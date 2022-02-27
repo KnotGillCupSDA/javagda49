@@ -1,6 +1,8 @@
 package com.sda.testing.solution.mockito.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -51,12 +53,15 @@ class UserServiceTest {
 
 	@Test
 	void shouldAddUser() {
-		User user = new User(1L, "Dupa", "Blada");
+		User user = new User("Dupa", "Blada");
+		User savedUser = new User(2324L, user.getFirstName(), user.getLastName());
+
 		when(userValidator.isUserValid(user)).thenReturn(true);
-		when(userRepository.addUser(user)).thenReturn(user);
+		when(userRepository.addUser(user)).thenReturn(savedUser);
 
 		User addedUser = userService.addUser(user);
 
-		assertEquals(user, addedUser);
+		assertEquals(savedUser, addedUser);
+		assertNotSame(user, addedUser);
 	}
 }

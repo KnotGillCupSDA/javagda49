@@ -2,6 +2,7 @@ package com.sda.testing.solution.mockito.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -24,7 +25,6 @@ class UserServiceTest {
 	@InjectMocks
 	private UserService userService;
 
-
 	@Test
 	void shouldReturnProperUser() {
 		User savedUser = new User(4L, "Tomek", "Woźniak");
@@ -40,5 +40,11 @@ class UserServiceTest {
 		Long notExistingId = 878L;
 		when(userRepository.findById(notExistingId)).thenReturn(Optional.empty());
 		assertThrows(Exception.class, () -> userService.getUserById(notExistingId));
+	}
+
+	@Test
+	void shouldThrowsExceptionWhenAddingNotValidUser() {
+		when(userValidator.isUserValid(any())).thenReturn(false);
+		assertThrows(Exception.class, () -> userService.addUser(new User(1L, "Dupa", "Blada")));
 	}
 }

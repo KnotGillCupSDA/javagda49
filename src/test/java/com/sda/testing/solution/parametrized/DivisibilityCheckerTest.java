@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class DivisibilityCheckerTest {
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "run #{index} with [{arguments}]" )
 	@ValueSource(ints = {0, 3, 9, 12, 15, -3, -6})
 	void shouldBeDivisibleBy3(int number) {
 		//when

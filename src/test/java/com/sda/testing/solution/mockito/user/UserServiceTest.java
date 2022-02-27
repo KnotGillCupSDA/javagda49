@@ -5,6 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -49,18 +53,21 @@ class UserServiceTest {
 		User user = new User(1L, "Dupa", "Blada");
 		when(userValidator.isUserValid(user)).thenReturn(false);
 		assertThrows(Exception.class, () -> userService.addUser(user));
+		//verify(userRepository, never()).addUser(any());
+		verifyNoInteractions(userRepository);
 	}
 
 	@Test
 	void shouldAddUser() {
 		User user = new User("Dupa", "Blada");
 		User savedUser = new User(2324L, user.getFirstName(), user.getLastName());
-
 		when(userValidator.isUserValid(user)).thenReturn(true);
 		when(userRepository.addUser(user)).thenReturn(savedUser);
 
 		User addedUser = userService.addUser(user);
 
+		verify(userValidator, times(2)).isUserValid(user);
+		verify(userRepository, times(1)).addUser(user);
 		assertEquals(savedUser, addedUser);
 		assertNotSame(user, addedUser);
 	}

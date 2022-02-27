@@ -18,6 +18,7 @@ public class UserService {
 		if (userValidator.isUserValid(user)) {
 			return userRepository.addUser(user);
 		}
+		//userRepository.addUser(user);
 		throw new IllegalArgumentException("User "+ user +" is invalid");
 	}
 }
